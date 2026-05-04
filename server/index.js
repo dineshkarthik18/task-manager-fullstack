@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -17,8 +18,11 @@ app.use("/api/tasks", taskRoutes);
 
 // DB connect
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => {
+    console.log("DB ERROR:", err);
+    process.exit(1);
+  });
 
 app.get("/", (req, res) => {
   res.send("Server is running...");
